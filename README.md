@@ -1,7 +1,13 @@
-## JTools
+## JTools - https://fiume.cn/jtools/
 
 ```
-yarn/npm install
-yarn dev/npm run dev
-yarn build/npm run build
+yarn
+yarn dev
+yarn build
+
+or
+
+npm install
+npm run dev
+npm run build
 ```
