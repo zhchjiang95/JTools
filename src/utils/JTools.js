@@ -1,16 +1,48 @@
 /**
  * JTools.js v1.2:
- * documents：https://fiume.cn/jtools/
+ * 使用文档：http://fiume.cn/jtools/
  */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-      (global = global || self, global.JTools = factory());
-}(this, function () {
-  'use strict';
+  // typeof define === 'function' && define.amd ? define(factory) :
+  (global = global || self, global.JTools = factory());
+}(this, function () { 'use strict';
+
+  /*  */
+
   function JTools() {
-    this.formatTime = ( sep = '-', millisecond = new Date(), hours = false) => {
+    this.slideDirection = function(selector, callback){
+      let startX = 0, startY = 0, endX = 0, endY = 0, el = document.querySelector(`${selector}`)
+      if(el.ontouchstart === null){
+        el.addEventListener('touchstart', function(e){
+          startX = e.changedTouches[0].clientX
+          startY = e.changedTouches[0].clientY
+        }, false)
+        el.addEventListener('touchend', function(e){
+          endX = e.changedTouches[0].clientX
+          endY = e.changedTouches[0].clientY
+          callback({startX, startY, endX, endY})
+        }, false)
+      } else {
+        el.addEventListener('mousedown', function(e){
+          startX = e.clientX
+          startY = e.clientY
+        })
+        el.addEventListener('mouseup', function(e){
+          endX = e.clientX
+          endY = e.clientY
+          callback({startX, startY, endX, endY})
+        })
+      } 
+    }
+
+    this.formatQueryParam =  function(key) {
+      const param = location.href.split('?')[1] ? location.href.split('?')[1].split('#/')[0].split('&').map(v => ({ [v.split('=')[0]]: v.split('=')[1] })) : []
+      return key ? param.find(v => v[`${key}`] !== undefined) ? param.find(v => v[`${key}`] !== undefined) : {} : param
+    }
+
+    this.formatTime = function( sep = '-', millisecond = new Date(), hours = false) {
       var time = typeof millisecond === 'number' ? millisecond : Number(millisecond)
       var dateTimer = new Date(time),
         Y = dateTimer.getFullYear(),
@@ -26,7 +58,8 @@
       s = s >= 10 ? s : '0' + s
       return hours ? `${Y + sep + M + sep + D} ${h}:${m}:${s}` : `${Y + sep + M + sep + D}`
     }
-    this.pageAnchor = (anchor, speed, direction) => {
+    
+    this.pageAnchor = function(anchor, speed, direction) {
       if(Number(anchor).toString() !== 'NaN'){
         var _anchor = anchor
       } else {
@@ -64,7 +97,8 @@
         }
       }())
     }
-    this.boxAnchor = (sourceSelector, targetSelector, diff = 4, speed = 20) => {
+
+    this.boxAnchor = function(sourceSelector, targetSelector, diff = 4, speed = 20) {
       document.querySelector(sourceSelector).onclick = function(e){
         var id = '#' + e.target.dataset.jtId
         var target = document.querySelector(id)

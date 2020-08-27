@@ -1,10 +1,10 @@
 <template>
-<div id="side">
+<div id="side" :class="{ 'slide-fade': show }">
   <div class="desc-link">
-    <a href="javascript:;" data-jt-id="install">
+    <a href="javascript:;" data-jt-id="install" @click="hideSide">
       <i class="ri-home-smile-fill"></i>
     </a>
-    <a href="https://github.com/zhchjiang95/JTools" target="_blank">
+    <a href="https://github.com/zhchjiang95/JTools" target="_blank" @click="hideSide">
       <i class="ri-github-fill"></i>
     </a>
   </div>
@@ -12,7 +12,7 @@
     <h3 class="classify">Features</h3>
     <ul>
       <li v-for="(item, i) in features" :key="i">
-        <a :href="'#' + item.hash" :data-jt-id="item.hash">
+        <a :href="'#' + item.hash" :data-jt-id="item.hash" @click="hideSide">
           {{ item.title }}
           <label>{{ item.desc }}</label>
         </a>
@@ -20,23 +20,27 @@
     </ul>
   </div>
 </div>
-<div id="main">
+<div id="main" @click="hideSide">
   <div class="use" id="install">
     <img class="logo" src="https://fiume.cn/jtools/assets/logo.svg" alt="jtools logo" />
     <div class="down">
       <div class="code">
         <textarea readonly>&lt;script src="https://fiume.cn/jtools/source/JTools.js">&lt;/script></textarea>
       </div>
-      <div class="code">import "./utils/JTools.js"</div>
-      <div class="desc">通过 script 标签或入口文件中 import 引入后会自动安装到全局，直接使用 JTools 即可。</div>
+      <div class="code">import JTools from '../utils/JTools'<br />import { boxAnchor } from '../utils/JTools'</div>
+      <div class="desc">通过 import 引入或 script 标签引入会自动挂载到全局，直接使用 JTools 即可。</div>
     </div>
   </div>
   <Explanation v-for="(item, i) in features" :key="i" :means="item" />
+</div>
+<div class="menu" v-show="screen" @click="showSide">
+  <i class="ri-menu-line"></i>
 </div>
 </template>
 
 <script>
 import {
+  ref,
   reactive,
   onMounted
 } from "vue";
@@ -55,14 +59,42 @@ export default {
       JTools.boxAnchor(".desc-link", "#main", 10, 40);
     });
 
+    // 是否显示菜单按钮
+    const screen = ref(window.innerWidth > 768 ? false : true)
+    window.onresize = function(){
+      screen.value = window.innerWidth > 768 ? false : true
+    }
+
+    const show = ref(window.innerWidth > 768 ? false : true)
+    const left = ref('50%')
+
+    const hideSide = () => {
+      if(screen){
+        show.value = true
+        left.value = '50%'
+      }
+    }
+
+    const showSide = () => {
+      if(screen){
+        show.value = false
+        left.value = '150%'
+      }
+    }
+
     return {
-      features
+      features,
+      screen,
+      show,
+      left,
+      hideSide,
+      showSide,
     };
   },
 };
 </script>
 
-<style scoped>
+<style vars="{left}" scoped>
 .classify {
   border-bottom: 1px solid #e8e8e8;
   padding-bottom: 10px;
@@ -71,7 +103,8 @@ export default {
 
 #side {
   flex-shrink: 0;
-  width: 20%;
+  width: 22%;
+  min-width: 264px;
   height: 70vh;
   display: flex;
   flex-direction: column;
@@ -79,6 +112,31 @@ export default {
   padding: 0 1.4%;
   border-right: 1px solid #e8e8e8;
   user-select: none;
+  transition: .5s;
+}
+
+.menu {
+  position: fixed;
+  left: var(--left);
+  bottom: 8%;
+  transform: translateX(-50%);
+  width: 16vw;
+  height: 16vw;
+  display: flex;    
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: .8s;
+  border: 1px solid #cc6f004d;
+  background: #edb36d8f;
+}
+.menu:active{
+  background: #edb36d;
+}
+
+.menu i {
+  font-size: 7.4vw;
+  color: #cc6f00b3;
 }
 
 .desc-link {
@@ -146,11 +204,10 @@ export default {
 
 .use .logo {
   height: 200px;
-  margin-right: 16px;
 }
 
 .use .down {
-  width: 48%;
+  flex-grow: 1;
 }
 
 .use .code {

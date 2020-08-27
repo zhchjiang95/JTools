@@ -1,5 +1,43 @@
 export const features = [
   {
+    title: "SlideDirection",
+    hash: "slideDirection",
+    desc: "滑动方向",
+    detailed: "可以判断在屏幕上滑动的方向，允许在任意盒子中滑动，接收回调函数，返回起始位置和结束位置的X/Y坐标值对象，支持 PC 和移动端。",
+    grammar: "JTools.slideDirection(selector: String, callback: Function)",
+    param: [
+      {
+        name: "selector",
+        desc: "指定在某个元素上滑动，传入其标签名或 class 或 id，请确保使用唯一标识。",
+      },
+      {
+        name: "callback",
+        desc: "回调函数，返回对象，包含起始位置和结束位置的X/Y坐标值。",
+      },
+    ],
+    example: {
+      areaList: [],
+      text: `JTools.slideDirection('#box', (dir) => console.log(dir)) ==> {startX: 54, startY: 82, endX: 54, endY: 82}`
+    },
+  },
+  {
+    title: "FormatQueryParam",
+    hash: "formatQueryParam",
+    desc: "格式化查询参数",
+    detailed: "格式化地址栏查询参数，返回所有参数的键值对形式对象的数组，可传入参数指定获取某个值，返回对象。",
+    grammar: "JTools.formatQueryParam(key?: String)",
+    param: [
+      {
+        name: "key[可选]",
+        desc: "获取某个参数的值，返回对象。不传则返回所有参数对象。",
+      },
+    ],
+    example: {
+      areaList: ['http://fiume.cn/jtools?id=2&age=18'],
+      text: `JTools.formatQueryParam('id') ==> {id: 2}`
+    },
+  },
+  {
     title: "FormatTime",
     hash: "formatTime",
     desc: "日期格式化",
