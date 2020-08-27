@@ -1,52 +1,55 @@
 <template>
-<div id="side" :class="{ 'slide-fade': show }">
-  <div class="desc-link">
-    <a href="javascript:;" data-jt-id="install" @click="hideSide">
-      <i class="ri-home-smile-fill"></i>
-    </a>
-    <a href="https://github.com/zhchjiang95/JTools" target="_blank" @click="hideSide">
-      <i class="ri-github-fill"></i>
-    </a>
-  </div>
-  <div class="navigation-area">
-    <h3 class="classify">Features</h3>
-    <ul>
-      <li v-for="(item, i) in features" :key="i">
-        <a :href="'#' + item.hash" :data-jt-id="item.hash" @click="hideSide">
-          {{ item.title }}
-          <label>{{ item.desc }}</label>
+  <div class="wrapper" :class="{ dark }">
+    <div id="side" :class="{ 'slide-fade': show }">
+      <div class="desc-link">
+        <a href="javascript:;" data-jt-id="install" @click="hideSide">
+          <i class="ri-home-smile-fill"></i>
         </a>
-      </li>
-    </ul>
-  </div>
-</div>
-<div id="main" @click="hideSide">
-  <div class="use" id="install">
-    <img class="logo" src="https://fiume.cn/jtools/assets/logo.svg" alt="jtools logo" />
-    <div class="down">
-      <div class="code">
-        <textarea readonly>&lt;script src="https://fiume.cn/jtools/source/JTools.js">&lt;/script></textarea>
+        <a href="javascript:;" @click="toggleDark">
+          <i :class="dark ? 'ri-contrast-2-line' : 'ri-contrast-2-fill'"></i>
+        </a>
+        <a href="https://github.com/zhchjiang95/JTools" target="_blank" @click="hideSide">
+          <i class="ri-github-fill"></i>
+        </a>
       </div>
-      <div class="code">import JTools from '../utils/JTools'<br />import { boxAnchor } from '../utils/JTools'</div>
-      <div class="desc">通过 import 引入或 script 标签引入会自动挂载到全局，直接使用 JTools 即可。</div>
+      <div class="navigation-area">
+        <h3 class="classify">Features</h3>
+        <ul>
+          <li v-for="(item, i) in features" :key="i">
+            <a :href="'#' + item.hash" :data-jt-id="item.hash" @click="hideSide">
+              {{ item.title }}
+              <label>{{ item.desc }}</label>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="main" @click="hideSide">
+      <div class="use" id="install">
+        <img class="logo" src="https://fiume.cn/jtools/assets/logo.svg" alt="jtools logo" />
+        <div class="down">
+          <div class="code">
+            <textarea readonly><script src="https://fiume.cn/jtools/source/JTools.js"></script></textarea>
+          </div>
+          <div class="code">
+            import JTools from '../utils/JTools'
+            <br />
+            import { boxAnchor } from '../utils/JTools'
+          </div>
+          <div class="desc">通过 import 引入或 script 标签引入会自动挂载到全局，直接使用 JTools 即可。</div>
+        </div>
+      </div>
+      <Explanation v-for="(item, i) in features" :key="i" :means="item" />
+    </div>
+    <div class="menu" v-show="screen" @click="showSide">
+      <i class="ri-menu-line"></i>
     </div>
   </div>
-  <Explanation v-for="(item, i) in features" :key="i" :means="item" />
-</div>
-<div class="menu" v-show="screen" @click="showSide">
-  <i class="ri-menu-line"></i>
-</div>
 </template>
 
 <script>
-import {
-  ref,
-  reactive,
-  onMounted
-} from "vue";
-import {
-  features
-} from "./utils/data.js";
+import { ref, reactive, onMounted } from "vue";
+import { features } from "./utils/data.js";
 import Explanation from "./components/Explanation.vue";
 
 export default {
@@ -60,27 +63,33 @@ export default {
     });
 
     // 是否显示菜单按钮
-    const screen = ref(window.innerWidth > 768 ? false : true)
-    window.onresize = function(){
-      screen.value = window.innerWidth > 768 ? false : true
-    }
+    const screen = ref(window.innerWidth > 768 ? false : true);
+    window.onresize = function () {
+      screen.value = window.innerWidth > 768 ? false : true;
+    };
 
-    const show = ref(window.innerWidth > 768 ? false : true)
-    const left = ref('50%')
+    const dark = ref(localStorage.getItem('dark') === 'true' ? true : false);
+
+    const show = ref(window.innerWidth > 768 ? false : true);
+    const left = ref("50%");
 
     const hideSide = () => {
-      if(screen){
-        show.value = true
-        left.value = '50%'
+      if (screen.value) {
+        show.value = true;
+        left.value = "50%";
       }
-    }
-
+    };
     const showSide = () => {
-      if(screen){
-        show.value = false
-        left.value = '150%'
+      if (screen.value) {
+        show.value = false;
+        left.value = "150%";
       }
-    }
+    };
+
+    const toggleDark = () => {
+      dark.value = !dark.value;
+      localStorage.setItem('dark', dark.value)
+    };
 
     return {
       features,
@@ -89,6 +98,8 @@ export default {
       left,
       hideSide,
       showSide,
+      dark,
+      toggleDark,
     };
   },
 };
@@ -112,7 +123,7 @@ export default {
   padding: 0 1.4%;
   border-right: 1px solid #e8e8e8;
   user-select: none;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .menu {
@@ -122,15 +133,15 @@ export default {
   transform: translateX(-50%);
   width: 16vw;
   height: 16vw;
-  display: flex;    
+  display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  transition: .8s;
+  transition: 0.8s;
   border: 1px solid #cc6f004d;
   background: #edb36d8f;
 }
-.menu:active{
+.menu:active {
   background: #edb36d;
 }
 
@@ -153,7 +164,7 @@ export default {
   justify-content: center;
   align-items: center;
   font-size: 180%;
-  transition: .3s;
+  transition: 0.3s;
   color: #343434;
 }
 

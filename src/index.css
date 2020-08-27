@@ -38,11 +38,21 @@ textarea{
   color: #595959;
 }
 
-#app {
+.wrapper {
   width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
+  overflow: hidden;
+  transition: .3s;
+}
+
+.wrapper.dark{
+  filter: invert(1) hue-rotate(180deg);
+  background: #fff;
+}
+.dark img{
+  filter: invert(0) hue-rotate(180deg);
 }
 
 #main a {
@@ -68,19 +78,20 @@ textarea{
 }
 
 @media screen and (max-width: 1024px){
-  #app #side {
+  .wrapper #side {
     width: 30%;
     padding: 0 3%;
   }
-  #app #main {
+  .wrapper #main {
     padding: 3% 6%;
   }
  }
 
 @media screen and (max-width: 768px){
-  #app #side {
+  .wrapper #side {
     position: fixed;
     top: 0;
+    z-index: 99;
     height: 100%;
     justify-content: flex-start;
     background-color: #fff;
@@ -93,7 +104,7 @@ textarea{
   .use{
     flex-direction: column;
   }
-  #app #main{
+  .wrapper #main{
     padding: 4%;
   }
   #main .use .code textarea {
