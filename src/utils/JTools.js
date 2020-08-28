@@ -12,28 +12,38 @@
   /*  */
 
   function JTools() {
-    this.slideDirection = function(selector, callback){
-      let startX = 0, startY = 0, endX = 0, endY = 0, el = document.querySelector(`${selector}`)
+    this.slideDirection = function(selector, callback, real = false, realStartEnd = false){
+      let startX = 0, startY = 0, endX = 0, endY = 0, realX = 0, realY = 0, el = document.querySelector(`${selector}`)
       if(el.ontouchstart === null){
-        el.addEventListener('touchstart', function(e){
+        el.ontouchstart = function(e){
           startX = e.changedTouches[0].clientX
           startY = e.changedTouches[0].clientY
-        }, false)
-        el.addEventListener('touchend', function(e){
+        }
+        real&&(el.ontouchmove = function(e){
+          realX = e.changedTouches[0].clientX
+          realY = e.changedTouches[0].clientY
+          callback(realStartEnd ? {startX, startY, endX, endY} : {}, {realX, realY})
+        })
+        el.ontouchend = function(e){
           endX = e.changedTouches[0].clientX
           endY = e.changedTouches[0].clientY
-          callback({startX, startY, endX, endY})
-        }, false)
+          callback({startX, startY, endX, endY}, {realX, realY})
+        }
       } else {
-        el.addEventListener('mousedown', function(e){
+        el.onmousedown = function(e){
           startX = e.clientX
           startY = e.clientY
+        }
+        real&&(el.onmousemove = function(e){
+          realX = e.clientX
+          realY = e.clientY
+          callback(realStartEnd ? {startX, startY, endX, endY} : {}, {realX, realY})
         })
-        el.addEventListener('mouseup', function(e){
+        el.onmouseup = function(e){
           endX = e.clientX
           endY = e.clientY
-          callback({startX, startY, endX, endY})
-        })
+          callback({startX, startY, endX, endY}, {realX, realY})
+        }
       } 
     }
 

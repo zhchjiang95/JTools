@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper" :class="{ dark }">
-    <div id="side" :class="{ 'slide-fade': show }">
+    <div id="side">
+      <div class="slip" v-if="screen"></div>
       <div class="desc-link">
         <a href="javascript:;" data-jt-id="install" @click="hideSide">
           <i class="ri-home-smile-fill"></i>
@@ -57,11 +58,6 @@ export default {
     Explanation,
   },
   setup() {
-    onMounted(() => {
-      JTools.boxAnchor(".navigation-area", "#main", 10);
-      JTools.boxAnchor(".desc-link", "#main", 10, 40);
-    });
-
     // 是否显示菜单按钮
     const screen = ref(window.innerWidth > 768 ? false : true);
     window.onresize = function () {
@@ -72,16 +68,17 @@ export default {
 
     const show = ref(window.innerWidth > 768 ? false : true);
     const left = ref("50%");
+    const transX = ref(screen.value ? -100 : 0);
 
     const hideSide = () => {
       if (screen.value) {
-        show.value = true;
+        transX.value = -100;
         left.value = "50%";
       }
     };
     const showSide = () => {
       if (screen.value) {
-        show.value = false;
+        transX.value = 0;
         left.value = "150%";
       }
     };
@@ -91,10 +88,22 @@ export default {
       localStorage.setItem('dark', dark.value)
     };
 
+    onMounted(() => {
+      JTools.boxAnchor(".navigation-area", "#main", 10);
+      JTools.boxAnchor(".desc-link", "#main", 10, 40);
+      JTools.slideDirection('body', (dir, real) => {
+        if(dir.endX - dir.startX > 40){
+          showSide()
+        } else if(dir.endX - dir.startX < -40){
+          hideSide()
+        }
+      }, true, true)
+    });
+
     return {
       features,
       screen,
-      show,
+      transX,
       left,
       hideSide,
       showSide,
@@ -105,7 +114,7 @@ export default {
 };
 </script>
 
-<style vars="{left}" scoped>
+<style vars="{left, transX}" scoped>
 .classify {
   border-bottom: 1px solid #e8e8e8;
   padding-bottom: 10px;
@@ -123,7 +132,19 @@ export default {
   padding: 0 1.4%;
   border-right: 1px solid #e8e8e8;
   user-select: none;
+  transform: translateX(calc(var(--transX) * 1%));
   transition: 0.5s;
+}
+
+#side .slip{
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 60px;
+  border-radius: 8px;
+  background: #dddddd;
 }
 
 .menu {

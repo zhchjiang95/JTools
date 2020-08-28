@@ -73,10 +73,6 @@ textarea{
   background: #acd18e;
 }
 
-.slide-fade{
-  transform: translateX(-100%);
-}
-
 @media screen and (max-width: 1024px){
   .wrapper #side {
     width: 30%;
