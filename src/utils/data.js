@@ -104,7 +104,7 @@ export const features = [
     param: [
       {
         name: "sourceSelector",
-        desc: "监听点击事件元素的父级唯一标识 id，监听点击事件元素需加 data-jt-id 属性。",
+        desc: "监听点击事件元素（或其父级）唯一标识 id，监听点击事件元素需加 data-jt-id 属性；①选择器带元素名（如：button#search）则监听其内部最深沉的元素（理论情况，既实际点击到的元素），该元素须添加 data-jt-id 属性，②选择器不带元素名（如：#search）则只监听此元素点击事件，data-jt-id 属性须绑定在此元素上。",
       },
       {
         name: "targetSelector",

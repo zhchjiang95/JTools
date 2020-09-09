@@ -27,17 +27,17 @@
     </div>
     <div id="main" @click="hideSide">
       <div class="use" id="install">
-        <img class="logo" src="https://fiume.cn/jtools/assets/logo.svg" alt="jtools logo" />
+        <img class="logo" :src="jtools.logo" alt="jtools logo" />
         <div class="down">
           <div class="code">
-            <textarea readonly><script src="https://fiume.cn/jtools/source/JTools.js"></script></textarea>
+            <textarea readonly onclick="javascript:window.open('https://fiume.cn/jtools/source/JTools.js');"><script src="https://fiume.cn/jtools/source/JTools.js"></script></textarea>
           </div>
           <div class="code">
-            import JTools from '../utils/JTools'
+            {{jtools.import[0]}}
             <br />
-            import { boxAnchor } from '../utils/JTools'
+            {{jtools.import[1]}}
           </div>
-          <div class="desc">通过 import 引入或 script 标签引入会自动挂载到全局，直接使用 JTools 即可。</div>
+          <div class="desc">{{jtools.desc}}</div>
         </div>
       </div>
       <Explanation v-for="(item, i) in features" :key="i" :means="item" />
@@ -58,6 +58,12 @@ export default {
     Explanation,
   },
   setup() {
+    const jtools = reactive({
+      logo: 'https://fiume.cn/jtools/assets/logo.svg',
+      source: 'https://fiume.cn/jtools/source/JTools.js',
+      import: ["import JTools from '../utils/JTools'", "import { boxAnchor } from '../utils/JTools'"],
+      desc: '通过 import 引入或 script 标签引入会自动挂载到全局，直接使用 JTools 即可。'
+    })
     // 是否显示菜单按钮
     const screen = ref(window.innerWidth > 768 ? false : true);
     window.onresize = function () {
@@ -89,18 +95,19 @@ export default {
     };
 
     onMounted(() => {
-      JTools.boxAnchor(".navigation-area", "#main", 10);
-      JTools.boxAnchor(".desc-link", "#main", 10, 40);
+      JTools.boxAnchor("div.navigation-area", "#main", 10);
+      JTools.boxAnchor("div.desc-link", "#main", 10, 40);
       JTools.slideDirection('body', (dir, real) => {
-        if(dir.endX - dir.startX > 40){
+        if(dir.endX - dir.startX > 80){
           showSide()
-        } else if(dir.endX - dir.startX < -40){
+        } else if(dir.endX - dir.startX < -80){
           hideSide()
         }
       }, true, true)
     });
 
     return {
+      jtools,
       features,
       screen,
       transX,
@@ -141,8 +148,8 @@ export default {
   top: 50%;
   right: 2px;
   transform: translateY(-50%);
-  width: 6px;
-  height: 60px;
+  width: 5px;
+  height: 10%;
   border-radius: 8px;
   background: #dddddd;
 }

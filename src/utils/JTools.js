@@ -1,5 +1,5 @@
 /**
- * JTools.js v1.2:
+ * JTools.js v1.2.1:
  * 使用文档：http://fiume.cn/jtools/
  */
 
@@ -73,20 +73,17 @@
       if(Number(anchor).toString() !== 'NaN'){
         var _anchor = anchor
       } else {
-        console.error('请输入目标位置，且该值应为数字');
-        return
+        throw Error('请输入目标位置，且该值应为数字')
       }
       if(Number(speed).toString() !== 'NaN'){
         var _speed = speed
       } else {
-        console.error('请输入滑动速度，且该值应为数字');
-        return
+        throw Error('请输入滑动速度，且该值应为数字')
       }
       if(typeof direction === 'boolean'){
         var _direction = direction
       } else {
-        console.error('请输入滑动方向，且该值应为true/false');
-        return
+        throw Error('请输入滑动方向，且该值应为true/false')
       }
       (function foo() {
         if (_direction) {
@@ -110,7 +107,7 @@
 
     this.boxAnchor = function(sourceSelector, targetSelector, diff = 4, speed = 20) {
       document.querySelector(sourceSelector).onclick = function(e){
-        var id = '#' + e.target.dataset.jtId
+        var id = '#' + (/^[.|#]/.test(sourceSelector) ? this.dataset.jtId : e.target.dataset.jtId)
         var target = document.querySelector(id)
         var box = document.querySelector(targetSelector)
         if(!target) return
