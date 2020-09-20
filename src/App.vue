@@ -1,55 +1,58 @@
 <template>
-  <div class="wrapper" :class="{ dark }">
-    <div id="side">
-      <div class="slip" v-if="screen"></div>
-      <div class="desc-link">
-        <a href="javascript:;" data-jt-id="install" @click="hideSide">
-          <i class="ri-home-smile-fill"></i>
-        </a>
-        <a href="javascript:;" @click="toggleDark">
-          <i :class="dark ? 'ri-contrast-2-line' : 'ri-contrast-2-fill'"></i>
-        </a>
-        <a href="https://github.com/zhchjiang95/JTools" target="_blank" @click="hideSide">
-          <i class="ri-github-fill"></i>
-        </a>
-      </div>
-      <div class="navigation-area">
-        <h3 class="classify">Features</h3>
-        <ul>
-          <li v-for="(item, i) in features" :key="i">
-            <a :href="'#' + item.hash" :data-jt-id="item.hash" @click="hideSide">
-              {{ item.title }}
-              <label>{{ item.desc }}</label>
-            </a>
-          </li>
-        </ul>
-      </div>
+<div class="wrapper" :class="{ dark }">
+  <div class="tips" v-if="isTips">未成功加载 JTools 工具！</div>
+  <div id="side">
+    <div class="slip" v-if="screen"></div>
+    <div class="desc-link">
+      <a href="javascript:;" data-jt-id="install" @click="hideSide">
+        <i class="ri-home-smile-fill"></i>
+      </a>
+      <a href="javascript:;" @click="toggleDark">
+        <i :class="dark ? 'ri-contrast-2-line' : 'ri-contrast-2-fill'"></i>
+      </a>
+      <a href="https://github.com/zhchjiang95/JTools" target="_blank" @click="hideSide">
+        <i class="ri-github-fill"></i>
+      </a>
     </div>
-    <div id="main" @click="hideSide">
-      <div class="use" id="install">
-        <img class="logo" :src="jtools.logo" alt="jtools logo" />
-        <div class="down">
-          <div class="code">
-            <textarea readonly onclick="javascript:window.open('https://fiume.cn/jtools/source/JTools.js');"><script src="https://fiume.cn/jtools/source/JTools.js"></script></textarea>
-          </div>
-          <div class="code">
-            {{jtools.import[0]}}
-            <br />
-            {{jtools.import[1]}}
-          </div>
-          <div class="desc">{{jtools.desc}}</div>
-        </div>
-      </div>
-      <Explanation v-for="(item, i) in features" :key="i" :means="item" />
-    </div>
-    <div class="menu" v-show="screen" @click="showSide">
-      <i class="ri-menu-line"></i>
+    <div class="navigation-area">
+      <h3 class="classify">Features</h3>
+      <ul>
+        <li v-for="(item, i) in features" :key="i">
+          <a :href="'#' + item.hash" :data-jt-id="item.hash" @click="hideSide">
+            {{ item.title }}
+            <label>{{ item.desc }}</label>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
+  <div id="main" @click="hideSide">
+    <div class="use" id="install">
+      <img class="logo" :src="jtools.logo" alt="jtools logo" />
+      <div class="down">
+        <div class="code">
+          <textarea readonly onclick="javascript:window.open('https://fiume.cn/jtools/source/JTools.js');">
+
+<script src="https://fiume.cn/jtools/source/JTools.js"></script></textarea>
+        </div>
+        <div class="code">
+          {{jtools.import[0]}}
+          <br />
+          {{jtools.import[1]}}
+        </div>
+        <div class="desc">{{jtools.desc}}</div>
+      </div>
+    </div>
+    <Explanation v-for="(item, i) in features" :key="i" :means="item" />
+  </div>
+  <div class="menu" v-show="screen" @click="showSide">
+    <i class="ri-menu-line"></i>
+  </div>
+</div>
 </template>
 
 <script>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onBeforeMount, onMounted } from "vue";
 import { features } from "./utils/data.js";
 import Explanation from "./components/Explanation.vue";
 
@@ -59,8 +62,8 @@ export default {
   },
   setup() {
     const jtools = reactive({
-      logo: 'https://fiume.cn/jtools/assets/logo.svg',
-      source: 'https://fiume.cn/jtools/source/JTools.js',
+      logo: 'https://www.fiume.cn/jtools/assets/logo.svg',
+      source: 'https://www.fiume.cn/jtools/source/JTools.js',
       import: ["import JTools from '../utils/JTools'", "import { boxAnchor } from '../utils/JTools'"],
       desc: '通过 import 引入或 script 标签引入会自动挂载到全局，直接使用 JTools 即可。'
     })
@@ -75,6 +78,7 @@ export default {
     const show = ref(window.innerWidth > 768 ? false : true);
     const left = ref("50%");
     const transX = ref(screen.value ? -100 : 0);
+    const isTips = ref(false);
 
     const hideSide = () => {
       if (screen.value) {
@@ -94,6 +98,12 @@ export default {
       localStorage.setItem('dark', dark.value)
     };
 
+    onBeforeMount(() => {
+      if(!window.JTools){
+        isTips.value = true
+      }
+    })
+
     onMounted(() => {
       JTools.boxAnchor("div.navigation-area", "#main", 10);
       JTools.boxAnchor("div.desc-link", "#main", 10, 40);
@@ -107,6 +117,7 @@ export default {
     });
 
     return {
+      isTips,
       jtools,
       features,
       screen,
@@ -121,7 +132,21 @@ export default {
 };
 </script>
 
-<style vars="{left, transX}" scoped>
+<style scoped vars="{left, transX}">
+.tips {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999999;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  border: 1px solid #faecd8;
+  background: #fdf6ec;
+  color: #e8a23c;
+}
+
 .classify {
   border-bottom: 1px solid #e8e8e8;
   padding-bottom: 10px;
@@ -143,7 +168,7 @@ export default {
   transition: 0.5s;
 }
 
-#side .slip{
+#side .slip {
   position: absolute;
   top: 50%;
   right: 2px;
@@ -169,6 +194,7 @@ export default {
   border: 1px solid #cc6f004d;
   background: #edb36d8f;
 }
+
 .menu:active {
   background: #edb36d;
 }
