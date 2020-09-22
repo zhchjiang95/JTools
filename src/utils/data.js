@@ -141,7 +141,7 @@ export const features = [
       },
     ],
     example: {
-      areaList: [`<div class="big-box"><div class="min-box">我很高，高到父级有滚动条！</div></div>`],
+      areaList: [`<div class="big-box"><div>我很高，高到父级有滚动条！</div></div>`],
       text: `JTools.infiniteScroll({el: '.big-box', delay: 100, distance: 10 }, () => { console.log('hello, JTools!') }))`
     },
   },
