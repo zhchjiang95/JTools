@@ -10,7 +10,10 @@
   <p>
     <strong>参数[{{ means.param.length }}]：</strong>
   </p>
-  <p v-for="(item, i) in means.param" :key="item.name">{{ item.name + '：' + item.desc }}</p>
+  <p class="param" v-for="(item, i) in means.param" :key="item.name">
+    <span>{{ i + 1 + '、' }}</span>
+    <p>{{ item.name + '：' + item.desc }}</p>
+  </p>
 
   <p>
     <strong>例子：</strong>
@@ -46,5 +49,17 @@ h2 {
 
 #main>div {
   margin-bottom: 80px;
+}
+
+.param{
+  display: flex;
+}
+.param span{
+  flex-shrink: 0;
+}
+.param p{
+  flex-grow: 1;
+  line-height: 28px;
+  padding-top: 6px;
 }
 </style>

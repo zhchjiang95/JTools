@@ -162,8 +162,6 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  padding: 0 1.4%;
-  border-right: 1px solid #e8e8e8;
   user-select: none;
   transform: translateX(calc(var(--transX) * 1%));
   transition: 0.5s;
@@ -210,9 +208,10 @@ export default {
   height: 56px;
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid #e8e8e8;
-  border-radius: 4px;
   overflow: hidden;
+  background-image: linear-gradient(90deg,#e8e8e8,#fafafa);
+  background-clip: padding-box,border-box;
+  background-origin: padding-box,border-box;
 }
 
 .desc-link a {
@@ -235,6 +234,10 @@ export default {
 
 .desc-link a:hover {
   background: #fff;
+}
+
+.navigation-area {
+  padding: 0 6%;
 }
 
 .navigation-area li {

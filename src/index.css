@@ -77,7 +77,6 @@ textarea{
 @media screen and (max-width: 1024px){
   .wrapper #side {
     width: 30%;
-    padding: 0 3%;
   }
   .wrapper #main {
     padding: 3% 6%;
