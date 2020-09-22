@@ -124,4 +124,25 @@ export const features = [
       text: `JTools.boxAnchor('#source-box', '#target-box', 4, 20)`
     },
   },
+  {
+    title: "InfiniteScroll",
+    hash: "infiniteScroll",
+    desc: "无限滚动",
+    detailed: "滚动至底部时，加载更多数据，或执行一些自定义的事件。",
+    grammar: "JTools.infiniteScroll(options: Object, callback: Function)",
+    param: [
+      {
+        name: "options",
+        desc: "配置对象，可配置属性：①el：需要无限滚动元素的选择器，请确保唯一；②delay：节流时延，单位为ms，默认值100；③distance：触发加载的距离阈值，单位为px，默认值10。",
+      },
+      {
+        name: "callback",
+        desc: "到达距离阈值时触发的事件。",
+      },
+    ],
+    example: {
+      areaList: [`<div class="big-box"><div class="min-box">我很高，高到父级有滚动条！</div></div>`],
+      text: `JTools.infiniteScroll({el: '.big-box', delay: 100, distance: 10 }, () => { console.log('hello, JTools!') }))`
+    },
+  },
 ]

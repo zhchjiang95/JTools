@@ -105,6 +105,7 @@ export default {
     })
 
     onMounted(() => {
+      document.querySelectorAll('textarea').forEach(v => {v.style.height = v.scrollHeight + 'px'})
       JTools.boxAnchor("div.navigation-area", "#main", 10);
       JTools.boxAnchor("div.desc-link", "#main", 10, 40);
       JTools.slideDirection('body', (dir, real) => {
@@ -157,7 +158,7 @@ export default {
   flex-shrink: 0;
   width: 22%;
   min-width: 264px;
-  height: 70vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -166,6 +167,7 @@ export default {
   user-select: none;
   transform: translateX(calc(var(--transX) * 1%));
   transition: 0.5s;
+  background: linear-gradient(-90deg, #e8e8e8, #fafafa);
 }
 
 #side .slip {
@@ -191,17 +193,17 @@ export default {
   align-items: center;
   border-radius: 50%;
   transition: 0.8s;
-  border: 1px solid #cc6f004d;
-  background: #edb36d8f;
+  /* border: 1px solid #cc6f004d; */
+  background: linear-gradient(0deg, #e8e8e8, #fafafa00);
 }
 
 .menu:active {
-  background: #edb36d;
+  background: #000;
 }
 
 .menu i {
   font-size: 7.4vw;
-  color: #cc6f00b3;
+  color: #0000005e;
 }
 
 .desc-link {
@@ -210,6 +212,7 @@ export default {
   flex-wrap: wrap;
   border: 1px solid #e8e8e8;
   border-radius: 4px;
+  overflow: hidden;
 }
 
 .desc-link a {

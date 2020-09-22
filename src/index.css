@@ -34,6 +34,7 @@ textarea{
   border: none;
   outline: none;
   resize: none;
+  word-break: break-all;
   background-color: transparent;
   color: #595959;
 }
@@ -90,7 +91,6 @@ textarea{
     z-index: 99;
     height: 100%;
     justify-content: flex-start;
-    background-color: #fff;
   }
   #side .desc-link{
     margin: 14% 0;

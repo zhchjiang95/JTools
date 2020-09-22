@@ -128,6 +128,25 @@
         return false
       }
     }
+
+    this.infiniteScroll = function(options, callback){
+      var box = document.querySelector(options.el);
+      var delay = options.delay || 100, distance = options.distance || 10, timer, flag = true
+      box.onscroll = function(){
+        if(flag){
+          var boxHeight = parseFloat(getComputedStyle(box).height),
+              boxScrollHeight = box.scrollHeight,
+              boxScrollTop = box.scrollTop;
+          flag = false
+          timer = setTimeout(function(){
+            flag = true
+          }, delay)
+          if(boxScrollHeight - boxScrollTop - boxHeight < distance){
+            callback()
+          }
+        }
+      }
+    }
   }
   return new JTools;
 }))
