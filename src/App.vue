@@ -4,8 +4,11 @@
   <div id="side">
     <div class="slip" v-if="screen"></div>
     <div class="desc-link">
-      <a href="javascript:;" data-jt-id="install" @click="hideSide">
+      <a href="//www.fiume.cn" target="_blank" @click="hideSide">
         <i class="ri-home-smile-fill"></i>
+      </a>
+      <a href="javascript:;" data-jt-id="install" @click="hideSide">
+        <i class="ri-install-fill"></i>
       </a>
       <a href="javascript:;" @click="toggleDark">
         <i :class="dark ? 'ri-contrast-2-line' : 'ri-contrast-2-fill'"></i>
@@ -165,7 +168,7 @@ export default {
   user-select: none;
   transform: translateX(calc(var(--transX) * 1%));
   transition: 0.5s;
-  background: linear-gradient(-90deg, #e8e8e8, #fafafa);
+  background: linear-gradient(-90deg,#e8e8e8,#fafafaf5);
 }
 
 #side .slip {
@@ -192,7 +195,7 @@ export default {
   border-radius: 50%;
   transition: 0.8s;
   /* border: 1px solid #cc6f004d; */
-  background: linear-gradient(0deg, #e8e8e8, #fafafa00);
+  background: linear-gradient(0deg, #e8e8e842, #fafafa00);
 }
 
 .menu:active {
