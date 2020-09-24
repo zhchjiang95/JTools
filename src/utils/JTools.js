@@ -47,9 +47,10 @@
       } 
     }
 
-    this.formatQueryParam =  function(key) {
-      const param = location.href.split('?')[1] ? location.href.split('?')[1].split('#/')[0].split('&').map(v => ({ [v.split('=')[0]]: v.split('=')[1] })) : []
-      return key ? param.find(v => v[`${key}`] !== undefined) ? param.find(v => v[`${key}`] !== undefined) : {} : param
+    this.formatQueryParam = function(key) {
+      const param = {}
+      location.href.split('?')[1]&&location.href.split('?')[1].split('#/')[0].split('&').forEach(v => { param[v.split('=')[0]] = v.split('=')[1] })
+      return key ? param[key] ? { [key]: param[key] } : {} : param
     }
 
     this.formatTime = function( sep = '-', millisecond = new Date(), hours = false) {

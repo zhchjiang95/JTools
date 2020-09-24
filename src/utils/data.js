@@ -32,7 +32,7 @@ export const features = [
     title: "FormatQueryParam",
     hash: "formatQueryParam",
     desc: "格式化查询参数",
-    detailed: "格式化地址栏查询参数，返回所有参数的键值对形式对象的数组，可传入参数指定获取某个值，返回对象。",
+    detailed: "格式化地址栏查询参数，返回所有参数的对象形式，可传入参数指定获取某个值，返回对象。",
     grammar: "JTools.formatQueryParam(key?: String)",
     param: [
       {
