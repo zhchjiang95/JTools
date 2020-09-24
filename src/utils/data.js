@@ -42,7 +42,7 @@ export const features = [
     ],
     example: {
       areaList: ['http://fiume.cn/jtools?id=2&age=18'],
-      text: `JTools.formatQueryParam('id') ==> {id: 2}`
+      text: `JTools.formatQueryParam() ==> {id: 2, age: 18}`
     },
   },
   {

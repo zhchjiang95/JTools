@@ -49,7 +49,7 @@
 
     this.formatQueryParam = function(key) {
       const param = {}
-      location.href.split('?')[1]&&location.href.split('?')[1].split('#/')[0].split('&').forEach(v => { param[v.split('=')[0]] = v.split('=')[1] })
+      location.href.split('?')[1]&&location.href.split('?')[1].split('#/')[0].split('&').forEach(v => { param[v.split('=')[0]] = v.split('=').slice(1).join('=') })
       return key ? param[key] ? { [key]: param[key] } : {} : param
     }
 
