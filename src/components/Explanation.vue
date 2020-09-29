@@ -1,5 +1,5 @@
 <template>
-<h2 :id="means.hash">{{ means.title + ' ' + means.desc }}</h2>
+<h2 :id="means.hash" data-jt-type="jt">{{ means.title + ' ' + means.desc }}</h2>
 <div>
   <p v-html="means.detailed"></p>
   <p>
@@ -12,7 +12,7 @@
   </p>
   <p class="param" v-for="(item, i) in means.param" :key="item.name">
     <span>{{ i + 1 + '、' }}</span>
-    <p>{{ item.name + '：' + item.desc }}</p>
+    <p>{{ item.name + '：' }}<span v-html="item.desc"></span></p>
   </p>
 
   <p>

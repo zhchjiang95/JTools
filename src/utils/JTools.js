@@ -70,64 +70,67 @@
       return hours ? `${Y + sep + M + sep + D} ${h}:${m}:${s}` : `${Y + sep + M + sep + D}`
     }
     
-    this.pageAnchor = function(anchor, speed, direction) {
-      if(Number(anchor).toString() !== 'NaN'){
-        var _anchor = anchor
-      } else {
-        throw Error('请输入目标位置，且该值应为数字')
-      }
-      if(Number(speed).toString() !== 'NaN'){
-        var _speed = speed
-      } else {
-        throw Error('请输入滑动速度，且该值应为数字')
-      }
-      if(typeof direction === 'boolean'){
-        var _direction = direction
-      } else {
-        throw Error('请输入滑动方向，且该值应为true/false')
-      }
+    this.pageAnchor = function(anchor = 0, speed = 0, direction = false) {
       (function foo() {
-        if (_direction) {
-          if (scrollY < _anchor) {
+        if (direction) {
+          if (scrollY < anchor) {
             var scrollTop = document.documentElement.scrollTop || document.body.scrollTop,
                 clientHeight = document.documentElement.clientHeight || document.body.clientHeight,
                 scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
             if(scrollHeight > clientHeight && scrollTop + clientHeight < scrollHeight) {
-              scrollTo(0, scrollY + _speed)
+              scrollTo(0, scrollY + speed)
               requestAnimationFrame(foo)
             }
           }
         } else {
-          if (scrollY > _anchor) {
-            scrollTo(0, scrollY - _speed)
+          if (scrollY > anchor) {
+            scrollTo(0, scrollY - speed)
             requestAnimationFrame(foo)
           }
         }
       }())
     }
 
-    this.boxAnchor = function(sourceSelector, targetSelector, diff = 4, speed = 20) {
-      document.querySelector(sourceSelector).onclick = function(e){
-        var id = '#' + (/^[.|#]/.test(sourceSelector) ? this.dataset.jtId : e.target.dataset.jtId)
+    this.boxAnchor = function(options, callback) {
+      var source = document.querySelector(options.source),
+          box = document.querySelector(options.target),
+          boxChildren = Array.from(box.children).filter(v => v.dataset.jtType === 'jt'),
+          V, arr = null;
+      source.onclick = function(e){
+        var id = '#' + (/^[.|#]/.test(options.source) ? this.dataset.jtId : e.target.dataset.jtId)
         var target = document.querySelector(id)
-        var box = document.querySelector(targetSelector)
         if(!target) return
         var flag = box.scrollTop > target.offsetTop;
         (function jMove(){
           if(flag){
-            if(box.scrollTop > target.offsetTop - diff){
-              box.scrollTo(0, box.scrollTop - speed)
+            if(box.scrollTop > target.offsetTop - (options.diff || 4)){
+              box.scrollTo(0, box.scrollTop - (options.speed || 20))
               requestAnimationFrame(jMove)
             }
           } else {
-            if(box.scrollTop < target.offsetTop - 10 - diff && box.scrollTop + box.offsetHeight < box.scrollHeight){
-              box.scrollTo(0, box.scrollTop + speed)
+            if(box.scrollTop < target.offsetTop - 10 - (options.diff || 4) && box.scrollTop + box.offsetHeight < box.scrollHeight){
+              box.scrollTo(0, box.scrollTop + (options.speed || 20))
               requestAnimationFrame(jMove)
             }
           }
         }());
         return false
       }
+      typeof callback === 'function'&&(
+        box.addEventListener('scroll', function(){
+          boxChildren.map(v => {
+            if(v !== V){
+              V = v
+              v.distance = Math.abs(v.offsetTop - box.scrollTop)
+            }
+          })
+          const tmp = boxChildren.sort((v, i) => v.distance - i.distance)
+          if(!arr || arr[0].id !== tmp[0].id){
+            arr = tmp.slice()
+            callback({ el: tmp[0], jtId: tmp[0].id })
+          }
+        })
+      )
     }
 
     this.infiniteScroll = function(options, callback){

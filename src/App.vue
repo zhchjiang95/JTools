@@ -20,8 +20,8 @@
     <div class="navigation-area">
       <h3 class="classify">Features</h3>
       <ul>
-        <li v-for="(item, i) in features" :key="i">
-          <a :href="'#' + item.hash" :data-jt-id="item.hash" @click="hideSide">
+        <li v-for="(item, i) in dataList" :key="i">
+          <a :class="{ active: item.checked }" :href="'#' + item.hash" :data-jt-id="item.hash" @click="hideSide">
             {{ item.title }}
             <label>{{ item.desc }}</label>
           </a>
@@ -46,7 +46,7 @@
         <div class="desc">{{jtools.desc}}</div>
       </div>
     </div>
-    <Explanation v-for="(item, i) in features" :key="i" :means="item" />
+    <Explanation v-for="(item, i) in dataList" :key="i" :means="item" />
   </div>
   <div class="menu" v-show="screen" @click="showSide">
     <i class="ri-menu-line"></i>
@@ -70,6 +70,7 @@ export default {
       import: ["import JTools from '../utils/JTools'", "import { boxAnchor } from '../utils/JTools'"],
       desc: '通过 import 引入或 script 标签引入会自动挂载到全局，直接使用 JTools 即可。'
     })
+    const dataList = reactive(features)
     // 是否显示菜单按钮
     const screen = ref(window.innerWidth > 768 ? false : true);
     window.onresize = function () {
@@ -109,8 +110,25 @@ export default {
 
     onMounted(() => {
       document.querySelectorAll('textarea').forEach(v => {v.style.height = v.scrollHeight + 'px'})
-      JTools.boxAnchor("div.navigation-area", "#main", 10);
-      JTools.boxAnchor("div.desc-link", "#main", 10, 40);
+      JTools.boxAnchor({
+        source: "div.navigation-area",
+        target: "#main",
+        diff: 10
+      }, res => {
+        dataList.forEach(v => {
+          if(v.hash === res.jtId){
+            v.checked = true
+          } else {
+            v.checked = false
+          }
+        })
+      });
+      JTools.boxAnchor({
+        source: "div.desc-link",
+        target: "#main",
+        diff: 10,
+        speed: 40
+      });
       JTools.slideDirection('body', (dir, real) => {
         if(dir.endX - dir.startX > 80){
           showSide()
@@ -123,7 +141,7 @@ export default {
     return {
       isTips,
       jtools,
-      features,
+      dataList,
       screen,
       transX,
       left,
@@ -248,8 +266,11 @@ export default {
   font-size: 13px;
 }
 
-.navigation-area a:hover {
+.navigation-area a.active {
   color: #1890ff;
+}
+.navigation-area a:hover {
+  color: #188fff91;
 }
 
 .navigation-area a label {
