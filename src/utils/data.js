@@ -105,11 +105,11 @@ export const features = [
     checked: false,
     desc: "盒子锚点",
     detailed: "盒子锚点，在任意可滑动盒子中跳转；监听事件元素需指定 data-jt-id 值为目标元素唯一标识 id。",
-    grammar: "JTools.boxAnchor(options, callback?)",
+    grammar: "JTools.boxAnchor(options: Object, callback?: Function)",
     param: [
       {
         name: "options",
-        desc: "配置对象，具体属性[4]：source、target、diff?、speed?。<br/>1)、source：监听点击事件元素（或其父级）选择器，请确保唯一。<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①选择器带元素名（如：button#search）则监听其内部最深沉的元素（理论情况，既实际点击到的元素），该元素须添加 data-jt-id 属性，属性值为目标容器内目标对象的 id（该目标对象须指定 data-jt-type 的值为 'jt'，以配合 callback 工作）。<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②选择器不带元素名（如：#search）则只监听此元素点击事件，data-jt-id 属性须绑定在此元素上。<br/>2)、target：目标可滚动容器的选择器，请确保唯一，容器内的目标对象 id 值为对应的 data-jt-id 值（该目标对象须指定 data-jt-type 的值为 'jt'，以配合 callback 工作）。<br/>3)、diff[可选]：滑动到与父元素的顶部距离差，默认值：4。<br/>4)、speed[可选]：滑动速度，默认值：20。",
+        desc: "配置对象，可配置属性[4]：source、target、diff?、speed?。<br/>1)、source：监听点击事件元素（或其父级）选择器，请确保唯一。<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①选择器带元素名（如：button#search）则监听其内部最深层的元素（理论情况，既实际点击到的元素），该元素须添加 data-jt-id 属性，属性值为目标容器内目标对象的 id（该目标对象须指定 data-jt-type 的值为 'jt'，以配合 callback 工作）。<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②选择器不带元素名（如：#search）则只监听此元素点击事件，data-jt-id 属性须绑定在此元素上。<br/>2)、target：目标可滚动容器的选择器，请确保唯一，容器内的目标对象 id 值为对应的 data-jt-id 值（该目标对象须指定 data-jt-type 的值为 'jt'，以配合 callback 工作）。<br/>3)、diff[可选]：滑动到与父元素的顶部距离差，默认值：4。<br/>4)、speed[可选]：滑动速度，默认值：20。",
       },
       {
         name: "callback[可选]",
@@ -118,7 +118,7 @@ export const features = [
     ],
     example: {
       areaList: [`<div id="source-box"><a data-jt-id="h1">锚点到h1</a></div>`, `<div id="target-box"><h4 id="h1" data-jt-type="jt">我的id是h1</h4></div>`],
-      text: `JTools.boxAnchor({source: '#source-box', target: '#target-box'}, (re) => {console.log(re)}) ==> {el: <a data-jt-id="h1">锚点到h1</a>, jtId: 'h1'}`
+      text: `JTools.boxAnchor({source: 'div#source-box', target: '#target-box'}, (re) => {console.log(re)}) ==> {el: <a data-jt-id="h1">锚点到h1</a>, jtId: 'h1'}`
     },
   },
   {
@@ -131,7 +131,7 @@ export const features = [
     param: [
       {
         name: "options",
-        desc: "配置对象，可配置属性：①el：需要无限滚动元素的选择器，请确保唯一；②delay：节流时延，单位为ms，默认值100；③distance：触发加载的距离阈值，单位为px，默认值10。",
+        desc: "配置对象，可配置属性：<br/>①el：需要无限滚动元素的选择器，请确保唯一；<br/>②delay：节流时延，单位为ms，默认值100；<br/>③distance：触发加载的距离阈值，单位为px，默认值10。",
       },
       {
         name: "callback",

@@ -117,6 +117,7 @@ export default {
       }, res => {
         dataList.forEach(v => {
           if(v.hash === res.jtId){
+            location.hash = res.jtId
             v.checked = true
           } else {
             v.checked = false
