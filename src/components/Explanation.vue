@@ -18,8 +18,9 @@
   <p>
     <strong>例子：</strong>
   </p>
-  <div class="code">
-    <textarea readonly v-for="(item, i) in means.example.areaList" :key="i">{{ item }}</textarea>
+  <div v-if="means.example.iframe" v-html="means.example.iframe" class="jt-example"></div>
+  <div class="code" v-else>
+    <textarea readonly v-for="(item, i) in means.example.areaList" :key="i">{{item}}</textarea>
     {{ means.example.text }}
   </div>
 </div>
@@ -49,7 +50,7 @@ h2 {
 
 #main>div {
   margin-bottom: 80px;
-}
+} 
 
 .param{
   display: flex;
@@ -61,5 +62,31 @@ h2 {
   flex-grow: 1;
   line-height: 28px;
   padding-top: 6px;
+}
+.jt-example{
+  position: relative;
+  font-size: 0;
+}
+.jt-example::after{
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  animation: rotate 1s infinite linear;
+  background-image: url(../assets/loader-2-line.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px;
+}
+@keyframes rotate{
+  from{
+    transform: rotate(0);
+  }
+  to{
+    transform: rotate(360deg);
+  }
 }
 </style>

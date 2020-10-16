@@ -21,7 +21,7 @@
       <h3 class="classify">Features</h3>
       <ul>
         <li v-for="(item, i) in dataList" :key="i">
-          <a :class="{ active: item.checked }" :href="'#' + item.hash" :data-jt-id="item.hash" @click="hideSide">
+          <a :class="{ active: item.checked }" href="javascript:;" :data-jt-id="item.hash" @click="hideSide">
             {{ item.title }}
             <label>{{ item.desc }}</label>
           </a>
@@ -47,6 +47,19 @@
       </div>
     </div>
     <Explanation v-for="(item, i) in dataList" :key="i" :means="item" />
+    
+    <footer>
+      <div class="jtools">
+        <img class="logo" :src="jtools.logo" alt="jtools logo" />
+        <span><strong>JTools</strong> - 纯 js 的便利工具集</span>
+      </div>
+      <div class="links">
+        <a href="https://www.fiume.cn/" target="_blank">Fiume - 集</a>
+        <a href="https://fiume.cn/c/" target="_blank">Calculate - 计算尺寸</a>
+        <a href="https://fiume.cn/tools/nodes/" target="_blank">Nodes - 一些节点</a>
+        <a href="https://github.com/zhchjiang95/JTools" target="_blank">Github - JTools</a>
+      </div>
+    </footer>
   </div>
   <div class="menu" v-show="screen" @click="showSide">
     <i class="ri-menu-line"></i>
@@ -113,11 +126,10 @@ export default {
       JTools.boxAnchor({
         source: "div.navigation-area",
         target: "#main",
-        diff: 10
       }, res => {
         dataList.forEach(v => {
           if(v.hash === res.jtId){
-            location.hash = res.jtId
+            // location.hash = res.jtId
             v.checked = true
           } else {
             v.checked = false
@@ -127,7 +139,6 @@ export default {
       JTools.boxAnchor({
         source: "div.desc-link",
         target: "#main",
-        diff: 10,
         speed: 40
       });
       JTools.slideDirection('body', (dir, real) => {
@@ -316,5 +327,38 @@ export default {
 
 .use .desc {
   padding: 0 4px;
+}
+
+footer{
+  margin: 26px 0;
+}
+footer div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+footer div img{
+  pointer-events: none;
+  width: 50px;
+}
+footer div.jtools{
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e8e8e8;
+}
+#main div.links{
+  flex-wrap: wrap;
+}
+#main div.links a{
+  flex-shrink: 0;
+  margin-bottom: 4px;
+  transition: .3s;
+  color: #93958f;
+}
+#main div.links a:not(:last-child){
+  margin-right: 14px;
+}
+#main div.links a:hover{
+  color: #595959;
 }
 </style>

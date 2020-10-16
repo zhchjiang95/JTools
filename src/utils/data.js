@@ -25,6 +25,10 @@ export const features = [
       },
     ],
     example: {
+      iframe: `<iframe height="265" style="width: 100%;" scrolling="no" title="SlideDirection 滑动方向" src="https://codepen.io/zhchjiang95/embed/QWEjzzW?height=265&theme-id=light&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+        See the Pen <a href='https://codepen.io/zhchjiang95/pen/QWEjzzW'>SlideDirection 滑动方向</a> by zhchjiang95
+        (<a href='https://codepen.io/zhchjiang95'>@zhchjiang95</a>) on <a href='https://codepen.io'>CodePen</a>.
+      </iframe>`,
       areaList: [],
       text: `JTools.slideDirection('#box', (dir, real) => console.log(dir), true, false) ==> {startX: 54, startY: 82, endX: 54, endY: 82} / {realX: 23, realY: 45}`
     },
@@ -43,6 +47,10 @@ export const features = [
       },
     ],
     example: {
+      iframe: `<iframe height="265" style="width: 100%;" scrolling="no" title="FormatQueryParam 格式化查询参数" src="https://codepen.io/zhchjiang95/embed/RwRWOzq?height=265&theme-id=light&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+        See the Pen <a href='https://codepen.io/zhchjiang95/pen/RwRWOzq'>FormatQueryParam 格式化查询参数</a> by zhchjiang95
+        (<a href='https://codepen.io/zhchjiang95'>@zhchjiang95</a>) on <a href='https://codepen.io'>CodePen</a>.
+      </iframe>`,
       areaList: ['http://fiume.cn/jtools?id=2&age=18'],
       text: `JTools.formatQueryParam() ==> {id: 2, age: 18}`
     },
@@ -56,19 +64,15 @@ export const features = [
     grammar: "JTools.formatTime(sep?: String, millisecond? Number/Date, hours?: Boolean)",
     param: [
       {
-        name: "sep[可选]",
-        desc: "年月日分隔符。默认：-。",
-      },
-      {
-        name: "millisecond[可选]",
-        desc: "自定义时间（毫秒），纯数字或Date()。默认当前时间。",
-      },
-      {
-        name: "hours[可选]",
-        desc: "是否显示时分秒。默认：false。",
-      },
+        name: "options",
+        desc: "配置对象，可配置属性[3]：sep?、millisecond?、hours?。<br/>1)、sep[可选]：年月日分隔符。默认：-。<br/>2)、millisecond[可选]：自定义时间（毫秒），纯数字或Date()。默认当前时间。<br/>3)、hours[可选]：是否显示时分秒。默认：false。",
+      }
     ],
     example: {
+      iframe: `<iframe height="265" style="width: 100%;" scrolling="no" title="FormatTime 日期格式化" src="https://codepen.io/zhchjiang95/embed/RwRWmrv?height=265&theme-id=light&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+      See the Pen <a href='https://codepen.io/zhchjiang95/pen/RwRWmrv'>FormatTime 日期格式化</a> by zhchjiang95
+      (<a href='https://codepen.io/zhchjiang95'>@zhchjiang95</a>) on <a href='https://codepen.io'>CodePen</a>.
+      </iframe>`,
       areaList: [],
       text: `JTools.formatTime('-', Date.now() + 20, true) ==> "2020-08-24 15:06:32"`
     },
@@ -82,19 +86,15 @@ export const features = [
     grammar: "JTools.pageAnchor(anchor: Number, speed: Number, direction: Boolean)",
     param: [
       {
-        name: "anchor",
-        desc: "滑动到的目标位置。",
-      },
-      {
-        name: "speed",
-        desc: "滑动速度。",
-      },
-      {
-        name: "direction",
-        desc: "滑动方向，向下（true）/向上（false）",
+        name: "options",
+        desc: "配置对象，可配置属性[3]：anchor、speed?、down?。<br/>1)、anchor：滑动到的目标位置。<br/>2)、speed：滑动速度。<br/>3)、down：滑动方向，向下（true）/向上（false），默认：true。",
       },
     ],
     example: {
+      iframe: `<iframe height="265" style="width: 100%;" scrolling="no" title="PageAnchor 页面锚点" src="https://codepen.io/zhchjiang95/embed/QWEygxm?height=265&theme-id=light&default-tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+      See the Pen <a href='https://codepen.io/zhchjiang95/pen/QWEygxm'>PageAnchor 页面锚点</a> by zhchjiang95
+      (<a href='https://codepen.io/zhchjiang95'>@zhchjiang95</a>) on <a href='https://codepen.io'>CodePen</a>.
+      </iframe>`,
       areaList: [],
       text: `JTools.pageAnchor(100, 10, true)`
     },
@@ -117,6 +117,10 @@ export const features = [
       },
     ],
     example: {
+      iframe: `<iframe height="265" style="width: 100%;" scrolling="no" title="BoxAnchor 盒子锚点" src="https://codepen.io/zhchjiang95/embed/vYKLJQj?height=265&theme-id=light&default-tab=html,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+      See the Pen <a href='https://codepen.io/zhchjiang95/pen/vYKLJQj'>BoxAnchor 盒子锚点</a> by zhchjiang95
+      (<a href='https://codepen.io/zhchjiang95'>@zhchjiang95</a>) on <a href='https://codepen.io'>CodePen</a>.
+      </iframe>`,
       areaList: [`<div id="source-box"><a data-jt-id="h1">锚点到h1</a></div>`, `<div id="target-box"><h4 id="h1" data-jt-type="jt">我的id是h1</h4></div>`],
       text: `JTools.boxAnchor({source: 'div#source-box', target: '#target-box'}, (re) => {console.log(re)}) ==> {el: <a data-jt-id="h1">锚点到h1</a>, jtId: 'h1'}`
     },
@@ -139,6 +143,10 @@ export const features = [
       },
     ],
     example: {
+      iframe: `<iframe height="265" style="width: 100%;" scrolling="no" title="InfiniteScroll 无限滚动" src="https://codepen.io/zhchjiang95/embed/NWrNWZy?height=265&theme-id=light&default-tab=js,result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+      See the Pen <a href='https://codepen.io/zhchjiang95/pen/NWrNWZy'>InfiniteScroll 无限滚动</a> by zhchjiang95
+      (<a href='https://codepen.io/zhchjiang95'>@zhchjiang95</a>) on <a href='https://codepen.io'>CodePen</a>.
+      </iframe>`,
       areaList: [`<div class="big-box"><div>我很高，高到父级有滚动条！</div></div>`],
       text: `JTools.infiniteScroll({el: '.big-box', delay: 100, distance: 10 }, () => { console.log('hello, JTools!') }))`
     },

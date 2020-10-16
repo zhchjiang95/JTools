@@ -1,5 +1,5 @@
 /**
- * JTools.js v1.2.1:
+ * JTools.js v1.2.2:
  * 使用文档：http://fiume.cn/jtools/
  */
 
@@ -13,9 +13,10 @@
 
   function JTools() {
     this.slideDirection = function(selector, callback, real = false, realStartEnd = false){
-      let startX = 0, startY = 0, endX = 0, endY = 0, realX = 0, realY = 0, el = document.querySelector(`${selector}`)
+      let startX = 0, startY = 0, endX = 0, endY = 0, realX = 0, realY = 0, el = selector instanceof HTMLDivElement ? selector : document.querySelector(`${selector}`)
       if(el.ontouchstart === null){
         el.ontouchstart = function(e){
+          endX = endY = realX = realY = 0
           startX = e.changedTouches[0].clientX
           startY = e.changedTouches[0].clientY
         }
@@ -31,17 +32,20 @@
         }
       } else {
         el.onmousedown = function(e){
+          endX = endY = realX = realY = 0
           startX = e.clientX
           startY = e.clientY
+          real&&(el.onmousemove = function(e){
+            realX = e.clientX
+            realY = e.clientY
+            callback(realStartEnd ? {startX, startY, endX, endY} : {}, {realX, realY})
+          })
         }
-        real&&(el.onmousemove = function(e){
-          realX = e.clientX
-          realY = e.clientY
-          callback(realStartEnd ? {startX, startY, endX, endY} : {}, {realX, realY})
-        })
-        el.onmouseup = function(e){
+        document.onmouseup = function(e){
+          if(el.onmousemove === null) return
           endX = e.clientX
           endY = e.clientY
+          el.onmousemove = null
           callback({startX, startY, endX, endY}, {realX, realY})
         }
       } 
@@ -53,8 +57,8 @@
       return key ? param[key] ? { [key]: param[key] } : {} : param
     }
 
-    this.formatTime = function( sep = '-', millisecond = new Date(), hours = false) {
-      var time = typeof millisecond === 'number' ? millisecond : Number(millisecond)
+    this.formatTime = function(options = {}) {
+      var sep = options.sep || '-', time = options.millisecond ? Number(options.millisecond) : new Date(), hours = options.hours || false
       var dateTimer = new Date(time),
         Y = dateTimer.getFullYear(),
         M = dateTimer.getMonth() + 1,
@@ -70,9 +74,10 @@
       return hours ? `${Y + sep + M + sep + D} ${h}:${m}:${s}` : `${Y + sep + M + sep + D}`
     }
     
-    this.pageAnchor = function(anchor = 0, speed = 0, direction = false) {
+    this.pageAnchor = function(options) {
+      var anchor = options.anchor || 0, speed = options.speed || 10, down = options.down === undefined ? true : Boolean(options.down);
       (function foo() {
-        if (direction) {
+        if (down) {
           if (scrollY < anchor) {
             var scrollTop = document.documentElement.scrollTop || document.body.scrollTop,
                 clientHeight = document.documentElement.clientHeight || document.body.clientHeight,
@@ -100,16 +105,19 @@
         var id = '#' + (/^[.|#]/.test(options.source) ? this.dataset.jtId : e.target.dataset.jtId)
         var target = document.querySelector(id)
         if(!target) return
-        var flag = box.scrollTop > target.offsetTop;
+        var diff = options.diff ? options.diff : 0;
+        var speed = options.speed ? options.speed : 10;
+        var targetHeight = parseFloat(getComputedStyle(target).height)
+        var flag = box.scrollTop >= target.offsetTop - targetHeight - diff;
         (function jMove(){
           if(flag){
-            if(box.scrollTop > target.offsetTop - (options.diff || 4)){
-              box.scrollTo(0, box.scrollTop - (options.speed || 20))
+            if(box.scrollTop > target.offsetTop - targetHeight - diff && box.scrollTop !== 0){
+              box.scrollTo(0, box.scrollTop - speed)
               requestAnimationFrame(jMove)
             }
           } else {
-            if(box.scrollTop < target.offsetTop - 10 - (options.diff || 4) && box.scrollTop + box.offsetHeight < box.scrollHeight){
-              box.scrollTo(0, box.scrollTop + (options.speed || 20))
+            if(target.offsetTop - targetHeight - diff - box.scrollTop > speed && box.scrollTop + box.offsetHeight < box.scrollHeight - speed){
+              box.scrollTo(0, box.scrollTop + speed)
               requestAnimationFrame(jMove)
             }
           }
