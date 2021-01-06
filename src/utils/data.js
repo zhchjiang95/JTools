@@ -130,8 +130,8 @@ export const features = [
     hash: "infiniteScroll",
     checked: false,
     desc: "无限滚动",
-    detailed: "滚动至底部时，加载更多数据，或执行一些自定义的事件。",
-    grammar: "JTools.infiniteScroll(options: Object, callback: Function)",
+    detailed: "滚动至底部时，加载更多数据，或执行一些自定义的事件。支持调用返回值清除绑定事件。",
+    grammar: "const unbind = JTools.infiniteScroll(options: Object, callback: Function)",
     param: [
       {
         name: "options",
@@ -140,6 +140,10 @@ export const features = [
       {
         name: "callback",
         desc: "到达距离阈值时触发的事件。",
+      },
+      {
+        name: "unbind",
+        desc: "infiniteScroll 函数调用后，返回一个可清除该绑定事件的函数。",
       },
     ],
     example: {
