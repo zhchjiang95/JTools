@@ -39,11 +39,11 @@ export const features = [
     checked: false,
     desc: "格式化查询参数",
     detailed: "格式化地址栏查询参数，返回所有参数的对象形式，可传入参数指定获取某个值，返回对象。",
-    grammar: "JTools.formatQueryParam(key?: String)",
+    grammar: "JTools.formatQueryParam(key?: Any)",
     param: [
       {
         name: "key[可选]",
-        desc: "获取某个参数的值，返回对象。不传则返回所有参数对象。",
+        desc: "获取某个参数的值，返回对象。否则返回所有参数对象。",
       },
     ],
     example: {
