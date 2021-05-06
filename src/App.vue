@@ -56,7 +56,7 @@
             <br />
             {{ jtools.import[1] }}
           </div>
-          <div class="desc">{{ jtools.desc }}</div>
+          <div class="desc" v-html="jtools.desc"></div>
         </div>
       </div>
       <Explanation v-for="(item, i) in dataList" :key="i" :means="item" />
@@ -102,7 +102,7 @@ export default {
         "import { boxAnchor } from '../utils/JTools'",
       ],
       desc:
-        "通过 import 引入或 script 标签引入会自动挂载到全局，直接使用 JTools 即可。",
+        `通过 import 引入或 script 标签引入会自动挂载到全局，直接使用 JTools 即可<strong style="font-style: italic; color: #999999;">——当前版本：${JTools.version || '未知'}</strong>`,
     });
     const dataList = reactive(features);
     // 是否显示菜单按钮
@@ -150,6 +150,7 @@ export default {
         {
           source: "div.navigation-area",
           target: "#main",
+          speed: 40,
         },
         (res) => {
           dataList.forEach((v) => {
