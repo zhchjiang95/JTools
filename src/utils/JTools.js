@@ -275,10 +275,10 @@
       return unbind;
     };
 
-    this.adaptiveScaling = function (targetEl, sourceEl, designSize, isFull) {
+    this.adaptiveScaling = function (targetEl, sourceEl, designSize) {
       const [designW, designH] = designSize.split("x");
-      const targetWidth = isFull ? window.screen.width : targetEl?.clientWidth;
-      // const targetHeight = isFull ? window.screen.height : targetEl?.clientHeight;
+      const targetWidth = targetEl.clientWidth;
+      // const targetHeight = targetEl.clientHeight;
       // 盒子尺寸比
       // const realRatio = targetWidth / targetHeight;
       // 设计稿比例
@@ -291,7 +291,7 @@
       // }
       sourceEl.style.transformOrigin = "left top";
       sourceEl.style.transform = `scale(${scaleRate})`;
-      sourceEl.style.width = `${targetWidth / scaleRate}px`;
+      // sourceEl.style.width = `${targetWidth / scaleRate}px`;
     };
   }
   return new JTools();
