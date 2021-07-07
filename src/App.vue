@@ -2,6 +2,7 @@
   <div class="wrapper" :class="{ dark }">
     <div class="tips" v-if="isTips">未成功加载 JTools 工具！</div>
     <div id="side">
+      <p class="beian"><a href="http://beian.miit.gov.cn/" target="_blank">渝ICP备16003722号</a></p>
       <div class="slip" v-if="screen"></div>
       <div class="desc-link">
         <a href="//www.fiume.cn" target="_blank" @click="hideSide">
@@ -95,14 +96,14 @@ export default {
   },
   setup() {
     const jtools = reactive({
-      logo: "https://www.fiume.cn/jtools/assets/logo.svg",
-      source: "https://www.fiume.cn/jtools/source/JTools.js",
+      logo: "/jtools/assets/logo.svg",
+      source: "/jtools/source/JTools.js",
       import: [
         "import JTools from '../utils/JTools'",
         "import { boxAnchor } from '../utils/JTools'",
       ],
       desc:
-        `通过 import 引入或 script 标签引入会自动挂载到全局，直接使用 JTools 即可<strong style="font-style: italic; color: #999999;">——当前版本：${JTools.version || '未知'}</strong>`,
+        `通过 import 引入或 script 标签引入会自动挂载到全局，直接使用 JTools 即可<strong style="font-style: italic; color: #999999;">——当前版本：${window.JTools?.version || '未知'}</strong>`,
     });
     const dataList = reactive(features);
     // 是否显示菜单按钮
@@ -146,6 +147,7 @@ export default {
       document.querySelectorAll("textarea").forEach((v) => {
         v.style.height = v.scrollHeight + "px";
       });
+      
       JTools.boxAnchor(
         {
           source: "div.navigation-area",
@@ -220,6 +222,7 @@ export default {
 }
 
 #side {
+  position: relative;
   flex-shrink: 0;
   width: 22%;
   min-width: 264px;
@@ -231,6 +234,20 @@ export default {
   transform: translateX(calc(var(--transX) * 1%));
   transition: 0.5s;
   background: linear-gradient(-90deg, #e8e8e8, #fffffff5);
+}
+
+#side .beian{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  border-top: 1px solid #f3f3f3;
+  color: #343434;
 }
 
 #side .slip {
