@@ -200,7 +200,7 @@ export default {
 };
 </script>
 
-<style scoped vars="{left, transX}">
+<style scoped>
 .tips {
   position: fixed;
   top: 16px;
